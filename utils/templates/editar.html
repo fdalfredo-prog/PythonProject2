@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Editar Registro</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 15px;
+            align-items: flex-end;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        input {
+            padding: 6px;
+            height: 30px;
+        }
+
+        .campo-fecha { width: 120px; }
+        .campo-albaran { width: 200px; }
+        .campo-factura { width: 220px; }
+        .campo-proveedor { width: 300px; }
+        .campo-cantidad { width: 100px; text-align: right; }
+
+        button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            height: 35px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        .acciones {
+            margin-top: 20px;
+        }
+
+        .acciones a {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 8px 15px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .acciones a:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <h1>Editar Registro</h1>
+
+    <form action="{{ url_for('editar', id=registro[0]) }}" method="post">
+        <div class="form-group">
+            <label for="fecha">Fecha:</label>
+            <input type="date" name="fecha" class="campo-fecha" value="{{ registro[1] }}">
+        </div>
+
+        <div class="form-group">
+            <label for="albaran">Albarán:</label>
+            <input type="text" name="albaran" class="campo-albaran" value="{{ registro[2] }}">
+        </div>
+
+        <div class="form-group">
+            <label for="factura_villena">Factura Villena:</label>
+            <input type="text" name="factura_villena" class="campo-factura" value="{{ registro[3] }}">
+        </div>
+
+        <div class="form-group">
+            <label for="proveedor">Proveedor:</label>
+            <input type="text" name="proveedor" class="campo-proveedor" value="{{ registro[4] }}">
+        </div>
+
+        <div class="form-group">
+            <label for="cantidad">Cantidad:</label>
+            <input type="number" step="0.01" name="cantidad" class="campo-cantidad" value="{{ registro[5] }}">
+        </div>
+
+        <button type="submit">Guardar Cambios</button>
+    </form>
+
+    <div class="acciones">
+        <a href="{{ url_for('index') }}">⬅️ Volver</a>
+    </div>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Historial de Acciones</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        /* Botón volver */
+        .acciones-superiores {
+            margin-bottom: 20px;
+        }
+
+        .acciones-superiores a {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 8px 15px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .acciones-superiores a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Estilos de la tabla */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            height: 35px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Tamaños de columnas */
+        td:nth-child(1), th:nth-child(1) { width: 60px; text-align: center; }   /* ID */
+        td:nth-child(2), th:nth-child(2) { width: 150px; text-align: center; } /* Usuario */
+        td:nth-child(3), th:nth-child(3) { width: 120px; text-align: center; } /* Acción */
+        td:nth-child(4), th:nth-child(4) { width: 100px; text-align: center; } /* Registro ID */
+        td:nth-child(5), th:nth-child(5) { width: 180px; text-align: center; } /* Fecha */
+    </style>
+</head>
+<body>
+    <h1>Historial de Acciones</h1>
+
+    <!-- Botón volver -->
+    <div class="acciones-superiores">
+        <a href="{{ url_for('index') }}">⬅️ Volver a la página principal</a>
+    </div>
+
+    <!-- Tabla de historial -->
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Usuario</th>
+            <th>Acción</th>
+            <th>Registro ID</th>
+            <th>Fecha</th>
+        </tr>
+        {% for h in historial %}
+        <tr>
+            <td>{{ h[0] }}</td>
+            <td>{{ h[1] }}</td>
+            <td>{{ h[2] }}</td>
+            <td>{{ h[3] }}</td>
+            <td>{{ h[4]|datetimeformat }}</td>
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>

@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Albaranes Mantenimiento</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        h1 {
+            margin-bottom: 20px;
+        }
+
+        /* Botonera superior */
+        .acciones-superiores {
+            margin-bottom: 20px;
+        }
+
+        .acciones-superiores a {
+            display: inline-block;
+            margin-right: 10px;
+            padding: 8px 15px;
+            background-color: #007BFF;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+        }
+
+        .acciones-superiores a:hover {
+            background-color: #0056b3;
+        }
+
+        /* Formulario horizontal */
+        .form-horizontal {
+            display: flex;
+            flex-wrap: wrap;   /* permite que salten de línea si no caben */
+            gap: 15px;         /* espacio entre casilleros */
+            align-items: flex-end;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .form-group label {
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+
+        /* Tamaños personalizados */
+        .campo-fecha {
+            width: 120px;
+            height: 30px;
+        }
+
+        .campo-albaran {
+            width: 120px;
+            height: 30px;
+        }
+
+        .campo-factura {
+            width: 120px;
+            height: 30px;
+        }
+
+        .campo-proveedor {
+            width: 500px;
+            height: 30px;
+        }
+
+        .campo-cantidad {
+            width: 100px;
+            height: 30px;
+            text-align: right;
+        }
+
+        button {
+            padding: 8px 15px;
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+            height: 35px;
+        }
+
+        button:hover {
+            background-color: #45a049;
+        }
+
+        /* Estilos de la tabla */
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+            font-size: 14px;
+        }
+
+        th, td {
+            border: 1px solid #ddd;
+            padding: 8px;
+            height: 35px;
+        }
+
+        th {
+            background-color: #f2f2f2;
+            text-align: center;
+            font-weight: bold;
+        }
+
+        /* Tamaños de columnas */
+        td:nth-child(1), th:nth-child(1) { width: 40px; text-align: center; }   /* ID */
+        td:nth-child(2), th:nth-child(2) { width: 100px; text-align: center; } /* Fecha */
+        td:nth-child(3), th:nth-child(3) { width: 100px; text-align: center; }   /* Albarán */
+        td:nth-child(4), th:nth-child(4) { width: 100px; text-align: center; }   /* Factura Villena */
+        td:nth-child(5), th:nth-child(5) { width: 490px; text-align: center; }   /* Proveedor */
+        td:nth-child(6), th:nth-child(6) { width: 100px; text-align: center; }  /* Cantidad */
+        td:nth-child(7), th:nth-child(7) { width: 150px; text-align: center; } /* Acciones */
+    </style>
+</head>
+<body>
+    <h1>Albaranes Mantenimiento</h1>
+
+    <!-- Botonera superior -->
+    <div class="acciones-superiores">
+        <a href="{{ url_for('exportar') }}">📤 Exportar a Excel</a>
+        <a href="{{ url_for('ver_historial') }}">📜 Historial</a>
+        <a href="{{ url_for('logout') }}">🚪 Cerrar sesión</a>
+    </div>
+
+    <!-- Formulario horizontal con tamaños personalizados -->
+    <form action="{{ url_for('nuevo') }}" method="post" class="form-horizontal">
+        <div class="form-group">
+            <label for="fecha">Fecha:</label>
+            <input type="date" name="fecha" class="campo-fecha">
+        </div>
+
+        <div class="form-group">
+            <label for="albaran">Albarán:</label>
+            <input type="text" name="albaran" class="campo-albaran">
+        </div>
+
+        <div class="form-group">
+            <label for="factura_villena">Factura Villena:</label>
+            <input type="text" name="factura_villena" class="campo-factura">
+        </div>
+
+        <div class="form-group">
+            <label for="proveedor">Proveedor:</label>
+            <input type="text" name="proveedor" class="campo-proveedor">
+        </div>
+
+        <div class="form-group">
+            <label for="cantidad">Cantidad:</label>
+            <input type="number" step ="0.01" name="cantidad" class="campo-cantidad">
+        </div>
+
+        <button type="submit">Añadir Registro</button>
+    </form>
+
+    <!-- Tabla de registros -->
+    <table>
+        <tr>
+            <th>ID</th>
+            <th>Fecha</th>
+            <th>Albarán</th>
+            <th>Factura Villena</th>
+            <th>Proveedor</th>
+            <th>Cantidad</th>
+            {% if role == "admin" %}
+            <th>Acciones</th>
+            {% endif %}
+        </tr>
+        {% for r in registros %}
+        <tr>
+            <td>{{ r[0] }}</td>
+            <td>{{ r[1]|datetimeformat }}</td>
+            <td>{{ r[2] }}</td>
+            <td>{{ r[3] }}</td>
+            <td>{{ r[4] }}</td>
+            <td>{{ r[5] }}</td>
+            {% if role == "admin" %}
+            <td>
+                <!-- Ahora Editar lleva a la página editar.html -->
+                <a href="{{ url_for('editar', id=r[0]) }}">✏️ Editar</a>
+                <a href="{{ url_for('borrar', id=r[0]) }}">🗑️ Borrar</a>
+            </td>
+            {% endif %}
+        </tr>
+        {% endfor %}
+    </table>
+</body>
+</html>
